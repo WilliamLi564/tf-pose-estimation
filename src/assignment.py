@@ -102,17 +102,67 @@ if __name__ == '__main__':
         image = canvas
         # feed image into the neural network
         humans = e.inference(image)  # list of humans
+        
+
+        #LeftWrist = ([(POSE_COCO_BODY_PARTS[4], v.x, v.y) for k,v in human.body_parts.items()])
+        #LeftShoulder = ([(POSE_COCO_BODY_PARTS[2], v.x, v.y) for k,v in human.body_parts.items()])
+        
         for id, human in enumerate(humans):
+            for k,v in human.body_parts.items():
+                (POSE_COCO_BODY_PARTS[k], v.y)
+                try:
+                    k == 5
+                    k == 7
+                    k == 2
+                    k == 4
+                    if k == 5:
+                        PositionLShoulder = v.y
+                        #print("Left Shoulder is at " + str(v.y))
+                        continue
+                    if k == 2:
+                        PositionRShoulder = v.y
+                        #print("Right Shoulder is at " + str(v.y))
+                        continue
+                    if k == 4:
+                        PositionRwrist = v.y
+                        #print("Right Shoulder is at " + str(v.y))
+                        continue
+                    if k == 7:
+                        PositionLwrist = v.y
+                        #print("Right Shoulder is at " + str(v.y))
+                        continue
+                    elif PositionLShoulder > PositionLwrist:
+                        hail_taxi(image)
+                    elif PositionRShoulder > PositionRwrist:
+                        hail_taxi(image)
+                except:
+                    print("")
+                    continue
+                    #elif k == 2:
+                        #PositionRShoulder = v.y
+                    #elif k == 4:
+                        #PositionRWrist = v.y
 
-            # TODO ensure it only does this when someone is hailing a taxi.
+                
+
+           # positionLwrist = [(POSE_COCO_BODY_PARTS[4], v.x) for k,v in human.body_parts.items()]
+            #positionRwrist = [(POSE_COCO_BODY_PARTS[7], v.x) for k,v in human.body_parts.items()]
+            #positionLshoulder = [(POSE_COCO_BODY_PARTS[2], v.x) for k,v in human.body_parts.items()]
+            #positionRshoulder = [(POSE_COCO_BODY_PARTS[5], v.x) for k,v in human.body_parts.items()]
+            #if positionLwrist < positionLshoulder:
+            #    hail_taxi(image)
+            #    continue
+            #elif positionRwrist < positionRshoulder:
+               # hail_taxi(image)
+               # continue
+
+# TODO ensure it only does this when someone is hailing a taxi.
             # That is, an arm is above their head.
-            hail_taxi(image)
-
             # Debugging statement: remove before demonstration.
-            # print([(POSE_COCO_BODY_PARTS[k], v.x, v.y) for k,v in human.body_parts.items()])
+            #print([(POSE_COCO_BODY_PARTS[4], v.x, v.y) for k,v in human.body_parts.items()])
 
         # drawing lines on an image
-        image = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
+            image = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
 
         # FPS counter
         cv2.putText(image, "FPS: {:.2f}".format(1.0 / (time.time() - fps_time)),
